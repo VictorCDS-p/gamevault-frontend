@@ -1,3 +1,4 @@
+```bash
 src
  ├── components
  │   ├── ui
@@ -56,3 +57,4 @@ src
  │
  ├── App.jsx
  └── main.jsx
+```
