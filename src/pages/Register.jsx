@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
 import Input from "../components/ui/Input"
 import Button from "../components/ui/Button"
@@ -11,8 +12,18 @@ export default function Register() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  const navigate = useNavigate()
+
   async function handleSubmit(e) {
     e.preventDefault()
+
+    setError("")
+    setSuccess("")
+    setLoading(true)
 
     try {
 
@@ -22,31 +33,47 @@ export default function Register() {
         password
       })
 
-      alert("User created successfully!")
+      setSuccess("Conta criada com sucesso! Redirecionando...")
 
-      window.location.href = "/login"
+      setTimeout(() => {
+        navigate("/login")
+      }, 1500)
 
     } catch (error) {
 
-      alert("Registration failed")
+      setError("Erro ao criar conta. Verifique os dados.")
 
       console.error(error)
 
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <div className="auth-page">
 
-      <h1>Register</h1>
+      <h1>Criar Conta</h1>
+
+      {error && (
+        <div className="auth-error">
+          {error}
+        </div>
+      )}
+
+      {success && (
+        <div className="auth-success">
+          {success}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit}>
 
         <Input
-          label="Username"
+          label="Usuário"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="Your username"
+          placeholder="Seu nome de usuário"
         />
 
         <Input
@@ -54,22 +81,29 @@ export default function Register() {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="email@example.com"
+          placeholder="seuemail@exemplo.com"
         />
 
         <Input
-          label="Password"
+          label="Senha"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Create a password"
+          placeholder="Crie uma senha"
         />
 
         <Button type="submit">
-          Register
+          {loading ? "Criando..." : "Criar conta"}
         </Button>
 
       </form>
+
+      <p style={{ marginTop: "16px" }}>
+        Já possui conta?{" "}
+        <Link to="/login">
+          Entrar
+        </Link>
+      </p>
 
     </div>
   )
