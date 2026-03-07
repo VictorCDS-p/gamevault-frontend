@@ -4,6 +4,7 @@ src
  │   ├── ui
  │   │   ├── Button.jsx
  │   │   ├── Input.jsx
+ │   │   ├── Select.jsx
  │   │   ├── Modal.jsx
  │   │   └── Card.jsx
  │   │
