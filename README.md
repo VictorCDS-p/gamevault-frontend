@@ -6,6 +6,7 @@ src
  │   │   ├── Input.jsx
  │   │   ├── Select.jsx
  │   │   ├── Modal.jsx
+ │   │   ├── Pagination.jsx
  │   │   └── Card.jsx
  │   │
  │   ├── layout
