@@ -24,6 +24,12 @@ src
  │   │   ├── LibraryList.jsx
  │   │   └── StatusSelector.jsx
  │   │
+ │   ├── profile
+ │   │   ├── EditProfileModal.jsx
+ │   │   ├── ProfileHeader.jsx
+ │   │   ├── ProfileStatCard.jsx
+ │   │   └── ProfileStats.jsx
+ │   │
  │   └── collections
  │       ├── CollectionCard.jsx
  │       ├── CollectionList.jsx
@@ -44,6 +50,7 @@ src
  │   ├── gameService.js
  │   ├── libraryService.js
  │   └── collectionService.js
+ │   └── userService.js
  │
  ├── hooks
  │   ├── useAuth.js
