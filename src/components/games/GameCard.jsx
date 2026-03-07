@@ -2,9 +2,16 @@ import Card from "../ui/Card"
 import Button from "../ui/Button"
 
 export default function GameCard({ game, onAddToLibrary }) {
-
   return (
     <Card>
+      {/* Imagem do jogo */}
+      {game.coverImage && (
+        <img
+          src={game.coverImage}
+          alt={game.title}
+          style={{ width: "100%", height: "auto" }}
+        />
+      )}
 
       <h3>{game.title}</h3>
 
@@ -19,9 +26,8 @@ export default function GameCard({ game, onAddToLibrary }) {
       </p>
 
       <Button onClick={() => onAddToLibrary(game.id)}>
-        Adicione a biblioteca
+        Adicione à biblioteca
       </Button>
-
     </Card>
   )
 }

@@ -29,31 +29,20 @@ export default function CollectionCard({
 
   return (
     <Card>
-
       <h3>{collection.name}</h3>
-
       <p>{collection.description}</p>
 
       <div className="collection-actions">
-
         {onEdit && (
-          <Button
-            variant="secondary"
-            onClick={() => onEdit(collection)}
-          >
+          <Button variant="secondary" onClick={() => onEdit(collection)}>
             Editar
           </Button>
         )}
-
         {onDelete && (
-          <Button
-            variant="danger"
-            onClick={() => onDelete(collection.id)}
-          >
+          <Button variant="danger" onClick={() => onDelete(collection.id)}>
             Deletar
           </Button>
         )}
-
       </div>
 
       <hr />
@@ -64,8 +53,16 @@ export default function CollectionCard({
         <p>No games in this collection.</p>
       ) : (
         collection.games.map((item) => (
-
-          <div key={item.id} className="collection-game">
+          <div key={item.id} className="collection-game" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            
+            {/* Imagem do jogo */}
+            {item.game.coverImage && (
+              <img
+                src={item.game.coverImage}
+                alt={item.game.title}
+                style={{ width: "60px", height: "auto" }}
+              />
+            )}
 
             <span>{item.game.title}</span>
 
@@ -75,15 +72,12 @@ export default function CollectionCard({
             >
               Remover
             </Button>
-
           </div>
-
         ))
       )}
 
       {onAddGame && (
         <div className="add-game">
-
           <Select
             value={selectedGame}
             onChange={(e) => setSelectedGame(e.target.value)}
@@ -94,10 +88,8 @@ export default function CollectionCard({
           <Button onClick={handleAddGame}>
             Adicionar jogo
           </Button>
-
         </div>
       )}
-
     </Card>
   )
 }
