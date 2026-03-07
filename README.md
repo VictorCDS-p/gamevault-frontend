@@ -62,6 +62,7 @@ src
  │
  ├── utils
  │   └── formatStatus.js
+ │   └── statusColors.js
  │
  ├── routes
  │   └── AppRoutes.jsx
