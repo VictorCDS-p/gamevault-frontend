@@ -9,6 +9,7 @@ import Register from "../pages/Register"
 import Games from "../pages/Games"
 import Library from "../pages/Library"
 import Collections from "../pages/Collections"
+import Profile from "../pages/Profile"
 
 function Layout({ children }) {
 
@@ -49,14 +50,11 @@ export default function AppRoutes() {
 
     <Routes>
 
-      {/* rotas públicas */}
 
       <Route path="/login" element={<Login />} />
-
       <Route path="/register" element={<Register />} />
 
 
-      {/* rotas protegidas */}
 
       <Route
         path="/games"
@@ -90,6 +88,19 @@ export default function AppRoutes() {
           </PrivateRoute>
         }
       />
+
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute>
+            <Layout>
+              <Profile />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+
+
 
       <Route path="*" element={<Navigate to="/games" />} />
 
