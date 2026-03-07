@@ -31,6 +31,7 @@ src
  ├── pages
  │   ├── Login.jsx
  │   ├── Register.jsx
+ │   ├── Profile.jsx
  │   ├── Games.jsx
  │   ├── Library.jsx
  │   └── Collections.jsx
