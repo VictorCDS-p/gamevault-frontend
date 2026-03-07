@@ -1,0 +1,19 @@
+export default function Button({ children, onClick, type = "button", variant = "primary", disabled = false }) {
+
+  const styles = {
+    primary: "btn-primary",
+    secondary: "btn-secondary",
+    danger: "btn-danger"
+  }
+
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={`btn ${styles[variant]}`}
+    >
+      {children}
+    </button>
+  )
+}
