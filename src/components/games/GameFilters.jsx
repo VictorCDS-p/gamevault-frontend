@@ -1,25 +1,30 @@
 import { useState } from "react"
-import Input from "../ui/Input"
+import Select from "../ui/Select"
 import Button from "../ui/Button"
 
-export default function GameFilters({ onFilter }) {
+export default function GameFilters({ categories = [], onFilter }) {
 
   const [category, setCategory] = useState("")
 
+  const categoryOptions = categories.map((cat) => ({
+    value: cat.name,
+    label: cat.name
+  }))
+
   function handleSubmit(e) {
     e.preventDefault()
-
     onFilter(category)
   }
 
   return (
     <form onSubmit={handleSubmit} className="game-filters">
 
-      <Input
+      <Select
         label="Category"
-        placeholder="RPG, Action..."
         value={category}
         onChange={(e) => setCategory(e.target.value)}
+        options={categoryOptions}
+        placeholder="Select a category"
       />
 
       <Button type="submit">
