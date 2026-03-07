@@ -4,11 +4,20 @@ import Button from "../ui/Button"
 
 export default function CollectionForm({
   initialData,
-  onSubmit
+  onSubmit,
+  onCancel
 }) {
 
   const [name, setName] = useState(initialData?.name || "")
   const [description, setDescription] = useState(initialData?.description || "")
+
+  const [prevInitialData, setPrevInitialData] = useState(initialData)
+
+  if (initialData !== prevInitialData) {
+    setPrevInitialData(initialData)
+    setName(initialData?.name || "")
+    setDescription(initialData?.description || "")
+  }
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -39,9 +48,23 @@ export default function CollectionForm({
         placeholder="Best RPG games"
       />
 
-      <Button type="submit">
-        Save
-      </Button>
+      <div className="form-actions">
+
+        <Button type="submit">
+          Save
+        </Button>
+
+        {onCancel && (
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={onCancel}
+          >
+            Cancel
+          </Button>
+        )}
+
+      </div>
 
     </form>
   )

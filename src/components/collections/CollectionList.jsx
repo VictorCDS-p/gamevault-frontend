@@ -2,8 +2,11 @@ import CollectionCard from "./CollectionCard"
 
 export default function CollectionList({
   collections,
+  library,
   onDelete,
-  onEdit
+  onEdit,
+  onAddGame,
+  onRemoveGame
 }) {
 
   if (!collections || collections.length === 0) {
@@ -18,8 +21,11 @@ export default function CollectionList({
         <CollectionCard
           key={collection.id}
           collection={collection}
+          library={library}
           onDelete={onDelete}
           onEdit={onEdit}
+          onAddGame={onAddGame}
+          onRemoveGame={onRemoveGame}
         />
 
       ))}
