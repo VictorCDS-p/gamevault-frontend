@@ -20,15 +20,15 @@ export default function GameFilters({ categories = [], onFilter }) {
     <form onSubmit={handleSubmit} className="game-filters">
 
       <Select
-        label="Category"
+        label="Categoria"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
         options={categoryOptions}
-        placeholder="Select a category"
+        placeholder="Selecionar a categoria"
       />
 
       <Button type="submit">
-        Filter
+        Filtrar
       </Button>
 
     </form>

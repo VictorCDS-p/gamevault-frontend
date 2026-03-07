@@ -9,25 +9,25 @@ export default function Sidebar() {
 
         <li>
           <Link to="/games">
-            Games
+            Jogos
           </Link>
         </li>
 
         <li>
           <Link to="/library">
-            Library
+            Biblioteca
           </Link>
         </li>
 
         <li>
           <Link to="/collections">
-            Collections
+            Coleções
           </Link>
         </li>
 
         <li>
           <Link to="/profile">
-            Profile
+            Perfil
           </Link>
         </li>
 

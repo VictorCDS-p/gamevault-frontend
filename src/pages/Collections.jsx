@@ -83,16 +83,16 @@ export default function Collections() {
   return (
     <div>
 
-      <h1>Collections</h1>
+      <h1>Coleções</h1>
 
       <Button onClick={() => setIsModalOpen(true)}>
-        Create Collection
+        Criar coleção
       </Button>
 
       <Modal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        title={editingCollection ? "Edit Collection" : "Create Collection"}
+        title={editingCollection ? "Edit Collection" : "Criar coleção"}
       >
         <CollectionForm
           initialData={editingCollection}

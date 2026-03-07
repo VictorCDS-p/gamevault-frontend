@@ -1,6 +1,7 @@
 import Card from "../ui/Card"
 import Button from "../ui/Button"
 import StatusSelector from "./StatusSelector"
+import formatStatus from "../../utils/formatStatus"
 
 export default function LibraryCard({
   item,
@@ -16,7 +17,7 @@ export default function LibraryCard({
       <p>{item.game.description}</p>
 
       <p>
-        <strong>Status:</strong> {item.status}
+        <strong>Status:</strong> {formatStatus(item.status)}
       </p>
 
       <StatusSelector
@@ -28,7 +29,7 @@ export default function LibraryCard({
         variant="danger"
         onClick={() => onRemove(item.id)}
       >
-        Remove
+        Remover
       </Button>
 
     </Card>

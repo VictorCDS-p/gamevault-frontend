@@ -35,14 +35,14 @@ export default function CollectionForm({
     <form onSubmit={handleSubmit}>
 
       <Input
-        label="Collection Name"
+        label="Nome da coleção"
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="My RPG Collection"
       />
 
       <Input
-        label="Description"
+        label="Descrição"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         placeholder="Best RPG games"
@@ -51,7 +51,7 @@ export default function CollectionForm({
       <div className="form-actions">
 
         <Button type="submit">
-          Save
+          Salvar
         </Button>
 
         {onCancel && (
@@ -60,7 +60,7 @@ export default function CollectionForm({
             variant="secondary"
             onClick={onCancel}
           >
-            Cancel
+            Cancelar
           </Button>
         )}
 

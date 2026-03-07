@@ -47,7 +47,7 @@ export default function Games() {
   return (
     <div>
 
-      <h1>Games</h1>
+      <h1>Jogos</h1>
 
       <GameFilters
         categories={categories}

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import LibraryCard from "./LibraryCard"
 import Pagination from "../ui/Pagination"
+import formatStatus from "../../utils/formatStatus"
 
 export default function LibraryList({
   library,
@@ -29,7 +30,10 @@ export default function LibraryList({
 
           <LibraryCard
             key={item.id}
-            item={item}
+            item={{
+              ...item,
+              statusLabel: formatStatus(item.status)
+            }}
             onStatusChange={onStatusChange}
             onRemove={onRemove}
           />

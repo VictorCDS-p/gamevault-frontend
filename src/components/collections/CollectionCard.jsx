@@ -41,7 +41,7 @@ export default function CollectionCard({
             variant="secondary"
             onClick={() => onEdit(collection)}
           >
-            Edit
+            Editar
           </Button>
         )}
 
@@ -50,7 +50,7 @@ export default function CollectionCard({
             variant="danger"
             onClick={() => onDelete(collection.id)}
           >
-            Delete
+            Deletar
           </Button>
         )}
 
@@ -58,7 +58,7 @@ export default function CollectionCard({
 
       <hr />
 
-      <h4>Games</h4>
+      <h4>Jogos</h4>
 
       {!collection.games || collection.games.length === 0 ? (
         <p>No games in this collection.</p>
@@ -73,7 +73,7 @@ export default function CollectionCard({
               variant="danger"
               onClick={() => onRemoveGame(collection.id, item.game.id)}
             >
-              Remove
+              Remover
             </Button>
 
           </div>
@@ -88,11 +88,11 @@ export default function CollectionCard({
             value={selectedGame}
             onChange={(e) => setSelectedGame(e.target.value)}
             options={gameOptions}
-            placeholder="Select a game"
+            placeholder="Selecionar jogo"
           />
 
           <Button onClick={handleAddGame}>
-            Add Game
+            Adicionar jogo
           </Button>
 
         </div>

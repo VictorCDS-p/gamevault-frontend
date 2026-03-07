@@ -19,7 +19,7 @@ export default function GameCard({ game, onAddToLibrary }) {
       </p>
 
       <Button onClick={() => onAddToLibrary(game.id)}>
-        Add to Library
+        Adicione a biblioteca
       </Button>
 
     </Card>
