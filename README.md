@@ -38,6 +38,7 @@ src
  ├── services
  │   ├── api.js
  │   ├── authService.js
+ │   ├── categoryService.js
  │   ├── gameService.js
  │   ├── libraryService.js
  │   └── collectionService.js
