@@ -1,3 +1,4 @@
+// Input.jsx
 export default function Input({
   label,
   type = "text",
@@ -7,16 +8,16 @@ export default function Input({
   name
 }) {
   return (
-    <div className="input-group">
-      {label && <label>{label}</label>}
-
+    <div className="">
+      {label && <label className="">{label}</label>}
       <input
         type={type}
         value={value}
         name={name}
         placeholder={placeholder}
         onChange={onChange}
+        className=""
       />
     </div>
-  )
+  );
 }

@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import Navbar from "../components/layout/Navbar"
 import Sidebar from "../components/layout/Sidebar"
 import Container from "../components/layout/Container"
+import '../index.css'
 
 import Login from "../pages/Login"
 import Register from "../pages/Register"

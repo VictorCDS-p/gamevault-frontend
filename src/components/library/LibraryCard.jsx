@@ -2,37 +2,55 @@ import Card from "../ui/Card"
 import Button from "../ui/Button"
 import StatusSelector from "./StatusSelector"
 import formatStatus from "../../utils/formatStatus"
+import statusColors from "../../utils/statusColors"
 
 export default function LibraryCard({ item, onStatusChange, onRemove }) {
   return (
-    <Card>
+    <Card className="flex flex-col overflow-hidden rounded-xl shadow-sm transition-all border border-slate-200 dark:border-slate-700/50 group">
       {item.game.coverImage && (
-        <img
-          src={item.game.coverImage}
-          alt={item.game.title}
-          style={{ width: "100%", height: "auto" }}
-        />
+        <div className="relative aspect-[16/9] overflow-hidden">
+          <img src={item.game.coverImage} alt={item.game.title} />
+        </div>
       )}
 
-      <h3>{item.game.title}</h3>
+      <div className="p-4 flex flex-col">
+        <h3 className="font-bold text-lg leading-tight mb-2 group-hover:text-primary transition-colors">
+          {item.game.title}
+        </h3>
 
-      <p>{item.game.description}</p>
+        {item.game.description && (
+          <div className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+            <p>{item.game.description}</p>
+          </div>
+        )}
 
-      <p>
-        <strong>Status:</strong> {formatStatus(item.status)}
-      </p>
+        <div className="text-sm mb-4">
+          <p>
+            <strong>Status:</strong>{" "}
+            <span
+              className={`${statusColors[item.status] || "text-slate-500"} px-2 py-0.5 rounded`}
+            >
+              {formatStatus(item.status)}
+            </span>
+          </p>
+        </div>
 
-      <StatusSelector
-        currentStatus={item.status}
-        onChange={(status) => onStatusChange(item.id, status)}
-      />
+        <div className="mb-4">
+          <StatusSelector
+            currentStatus={item.status}
+            onChange={(status) => onStatusChange(item.id, status)}
+          />
+        </div>
 
-      <Button
-        variant="danger"
-        onClick={() => onRemove(item.id)}
-      >
-        Remover
-      </Button>
+        <div className="flex justify-center mt-auto">
+          <Button
+            onClick={() => onRemove(item.id)}
+            className="flex items-center justify-center gap-2 px-6 py-2.5 border rounded-lg font-bold text-sm transition-all bg-red-100 border-red-200 text-red-600 hover:bg-red-200 hover:text-red-800"
+          >
+            Remover
+          </Button>
+        </div>
+      </div>
     </Card>
   )
 }

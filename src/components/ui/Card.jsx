@@ -1,7 +1,11 @@
-export default function Card({ children }) {
+export default function Card({ children, className = "" }) {
   return (
-    <div className="card">
+    <div
+      className={`
+        ${className}
+      `}
+    >
       {children}
     </div>
-  )
+  );
 }
