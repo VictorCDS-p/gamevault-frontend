@@ -10,7 +10,7 @@ export default function Navbar({ onLogout }) {
 
       <div className="navbar-right">
         <Button variant="secondary" onClick={onLogout}>
-          Deslogar
+          Sair
         </Button>
       </div>
 

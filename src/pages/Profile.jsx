@@ -1,138 +1,86 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import Input from "../components/ui/Input"
-import Button from "../components/ui/Button"
-import Card from "../components/ui/Card"
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
 
-import api from "../services/api"
+import { userService } from "../services/userService.js";
+
+import ProfileHeader from "../components/profile/ProfileHeader.jsx";
+import ProfileStats from "../components/profile/ProfileStats.jsx";
+import EditProfileModal from "../components/profile/EditProfileModal.jsx";
 
 export default function Profile() {
 
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-
-  const [loading, setLoading] = useState(true)
-  const [message, setMessage] = useState("")
-  const [error, setError] = useState("")
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [showEditModal, setShowEditModal] = useState(false);
 
   useEffect(() => {
-    loadProfile()
-  }, [])
+    loadProfile();
+  }, []);
 
   async function loadProfile() {
+    setLoading(true);
     try {
-
-      const response = await api.get("/users/me")
-
-      setUsername(response.data.username)
-      setEmail(response.data.email)
-
+      const data = await userService.getProfile();
+      setProfile(data);
     } catch {
-
-      setError("Erro ao carregar perfil.")
-
+      setError("Erro ao carregar perfil.");
     } finally {
-      setLoading(false)
-    }
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault()
-
-    setError("")
-    setMessage("")
-
-    try {
-
-      await api.put("/users/me", {
-        username,
-        email
-      })
-
-      setMessage("Perfil atualizado com sucesso!")
-
-    } catch {
-
-      setError("Erro ao atualizar perfil.")
-
+      setLoading(false);
     }
   }
 
   async function handleDelete() {
-
-    const confirmDelete = confirm("Tem certeza que deseja deletar sua conta?")
-
-    if (!confirmDelete) return
+    const confirmDelete = confirm("Tem certeza que deseja deletar sua conta?");
+    if (!confirmDelete) return;
 
     try {
-
-      await api.delete("/users/me")
-
-      localStorage.removeItem("token")
-
-      window.location.href = "/register"
-
+      await userService.deleteProfile();
+      localStorage.removeItem("token");
+      window.location.href = "/register";
     } catch {
-
-      setError("Erro ao deletar conta.")
-
+      setError("Erro ao deletar conta.");
     }
   }
 
-  if (loading) {
-    return <p>Carregando perfil...</p>
-  }
+  if (loading) return <p>Carregando perfil...</p>;
+  if (!profile) return <p>Perfil não encontrado.</p>;
 
   return (
     <div>
+      <ProfileHeader
+        username={profile.username}
+        email={profile.email}
+        onEdit={() => setShowEditModal(true)}
+      />
 
-      <h1>Perfil</h1>
+      <ProfileStats stats={profile.stats} />
 
-      <Card>
-
-        {error && (
-          <div className="auth-error">
-            {error}
-          </div>
-        )}
-
-        {message && (
-          <div className="auth-success">
-            {message}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit}>
-
-          <Input
-            label="Usuário"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-
-          <Input
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <Button type="submit">
-            Salvar alterações
-          </Button>
-
-        </form>
-
-        <hr style={{ margin: "20px 0" }} />
-
-        <Button
-          variant="danger"
-          onClick={handleDelete}
-        >
+      <Card style={{ marginTop: "20px" }}>
+        <Button variant="danger" onClick={handleDelete}>
           Deletar conta
         </Button>
-
       </Card>
 
+      {showEditModal && (
+        <EditProfileModal
+          profile={profile}
+          onClose={() => setShowEditModal(false)}
+          onSave={async (updatedData) => {
+            try {
+              const updatedProfile = await userService.updateProfile(updatedData);
+              setProfile(updatedProfile);
+              setShowEditModal(false);
+            } catch {
+              alert("Erro ao atualizar perfil");
+            }
+          }}
+        />
+      )}
+
+      {error && <p className="auth-error">{error}</p>}
     </div>
-  )
+  );
 }
