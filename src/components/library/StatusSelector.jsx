@@ -1,34 +1,30 @@
-import { useState } from "react"
-import { createPortal } from "react-dom"
-import formatStatus from "../../utils/formatStatus"
-import statusColors from "../../utils/statusColors"
+import { useState, useRef, useLayoutEffect } from "react";
+import { createPortal } from "react-dom";
+import formatStatus from "../../utils/formatStatus";
+import statusColors from "../../utils/statusColors";
 
-const statuses = ["PLAYING", "COMPLETED", "BACKLOG", "DROPPED"]
+const STATUSES = ["PLAYING", "COMPLETED", "BACKLOG", "DROPPED"];
 
 export default function StatusSelector({ currentStatus, onChange }) {
-  const [open, setOpen] = useState(false)
-  const [dropdownTop, setDropdownTop] = useState(0)
-  const [dropdownLeft, setDropdownLeft] = useState(0)
-  const [dropdownWidth, setDropdownWidth] = useState(0)
+  const [open, setOpen] = useState(false);
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0, width: 0 });
+  const buttonRef = useRef(null);
 
-  const buttonRef = (el) => {
-    if (el) {
-      const rect = el.getBoundingClientRect()
-      setDropdownTop(rect.bottom + window.scrollY)
-      setDropdownLeft(rect.left + window.scrollX)
-      setDropdownWidth(rect.width)
+  useLayoutEffect(() => {
+    if (open && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownPos({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+      });
     }
-  }
+  }, [open]);
 
-  const options = statuses.map((status) => ({
-    value: status,
-    label: formatStatus(status)
-  }))
-
-  const handleSelect = (val) => {
-    onChange(val)
-    setOpen(false)
-  }
+  const handleSelect = (status) => {
+    onChange(status);
+    setOpen(false);
+  };
 
   return (
     <div className="flex flex-col gap-1 w-full relative">
@@ -40,10 +36,12 @@ export default function StatusSelector({ currentStatus, onChange }) {
         ref={buttonRef}
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex items-center justify-between gap-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-lg text-sm font-medium border border-slate-300 dark:border-slate-700 hover:border-primary/50 transition-all w-full cursor-pointer"
+        className="flex items-center justify-between gap-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-lg text-sm font-medium border border-slate-300 dark:border-slate-700 hover:border-primary/50 w-full"
       >
-        <span className={`${statusColors[currentStatus] || "text-slate-900 dark:text-slate-200"} px-2 py-0.5 rounded`}>
-          {options.find((opt) => opt.value === currentStatus)?.label || "Selecione um status"}
+        <span
+          className={`${statusColors[currentStatus] || "text-slate-900 dark:text-slate-200"} px-2 py-0.5 rounded`}
+        >
+          {formatStatus(currentStatus) || "Selecione um status"}
         </span>
         <span className="material-symbols-outlined text-base text-slate-400">
           expand_more
@@ -54,32 +52,39 @@ export default function StatusSelector({ currentStatus, onChange }) {
         createPortal(
           <ul
             onWheel={(e) => {
-              const el = e.currentTarget
-              const { scrollTop, scrollHeight, clientHeight } = el
-              const delta = e.deltaY
-              const atTop = scrollTop === 0 && delta < 0
-              const atBottom = scrollTop + clientHeight >= scrollHeight && delta > 0
-              if (atTop || atBottom) e.preventDefault()
+              const el = e.currentTarget;
+              const { scrollTop, scrollHeight, clientHeight } = el;
+              const delta = e.deltaY;
+              if (
+                (scrollTop === 0 && delta < 0) ||
+                (scrollTop + clientHeight >= scrollHeight && delta > 0)
+              ) {
+                e.preventDefault();
+              }
             }}
             className="absolute z-50 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-lg max-h-60 overflow-auto text-sm"
             style={{
-              top: dropdownTop,
-              left: dropdownLeft,
-              width: dropdownWidth
+              top: dropdownPos.top,
+              left: dropdownPos.left,
+              width: dropdownPos.width,
             }}
           >
-            {options.map((option) => (
+            {STATUSES.map((status) => (
               <li
-                key={option.value}
-                onClick={() => handleSelect(option.value)}
-                className={`px-4 py-2 cursor-pointer hover:bg-primary/10 dark:hover:bg-primary/20 ${statusColors[option.value]}`}
+                key={status}
+                onClick={() => handleSelect(status)}
+                className={`px-4 py-2 cursor-pointer hover:bg-primary/10 dark:hover:bg-primary/20`}
               >
-                {option.label}
+                <span
+                  className={`${statusColors[status] || "text-slate-900 dark:text-slate-200"}`}
+                >
+                  {formatStatus(status)}
+                </span>{" "}
               </li>
             ))}
           </ul>,
-          document.body
+          document.body,
         )}
     </div>
-  )
+  );
 }

@@ -1,23 +1,23 @@
-import { useState } from "react"
-import LibraryCard from "./LibraryCard"
-import Pagination from "../ui/Pagination"
-import formatStatus from "../../utils/formatStatus"
+import { useState } from "react";
+import LibraryCard from "./LibraryCard";
+import Pagination from "../ui/Pagination";
+import formatStatus from "../../utils/formatStatus";
 
 export default function LibraryList({ library, onStatusChange, onRemove }) {
-  const [page, setPage] = useState(1)
-  const itemsPerPage = 8
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 8;
 
   if (!library || library.length === 0) {
     return (
       <p className="text-center text-slate-500 dark:text-slate-400 mt-8">
-        Your library is empty.
+        Sua biblioteca está vazia.
       </p>
-    )
+    );
   }
 
-  const start = (page - 1) * itemsPerPage
-  const end = start + itemsPerPage
-  const paginatedLibrary = library.slice(start, end)
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedLibrary = library.slice(startIndex, endIndex);
 
   return (
     <div className="w-full">
@@ -27,7 +27,7 @@ export default function LibraryList({ library, onStatusChange, onRemove }) {
             key={item.id}
             item={{
               ...item,
-              statusLabel: formatStatus(item.status)
+              statusLabel: formatStatus(item.status), // garante pt-BR
             }}
             onStatusChange={onStatusChange}
             onRemove={onRemove}
@@ -35,14 +35,16 @@ export default function LibraryList({ library, onStatusChange, onRemove }) {
         ))}
       </div>
 
-      <div className="mt-8">
-        <Pagination
-          totalItems={library.length}
-          itemsPerPage={itemsPerPage}
-          currentPage={page}
-          onPageChange={setPage}
-        />
-      </div>
+      {library.length > ITEMS_PER_PAGE && (
+        <div className="mt-8">
+          <Pagination
+            totalItems={library.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+          />
+        </div>
+      )}
     </div>
-  )
+  );
 }

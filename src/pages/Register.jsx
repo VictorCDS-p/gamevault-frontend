@@ -17,16 +17,27 @@ export default function Register() {
 
   const navigate = useNavigate();
 
+  // Função para validar email usando regex
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
     setSuccess("");
-    setLoading(true);
 
+    // Validação de email antes de enviar
+    if (!isValidEmail(email)) {
+      setError("Por favor, insira um email válido.");
+      return;
+    }
+
+    setLoading(true);
     try {
       await registerUser({ username, email, password });
       setSuccess("Conta criada com sucesso! Redirecionando...");
-
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
       setError("Erro ao criar conta. Verifique os dados.");
@@ -43,10 +54,16 @@ export default function Register() {
           Criar Conta
         </h1>
 
-        {error && <div className="text-red-500 mb-4 text-sm text-center">{error}</div>}
-        {success && <div className="text-green-500 mb-4 text-sm text-center">{success}</div>}
+        {/* Mensagens de erro ou sucesso */}
+        {error && (
+          <div className="text-red-500 mb-4 text-sm text-center">{error}</div>
+        )}
+        {success && (
+          <div className="text-green-500 mb-4 text-sm text-center">{success}</div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Usuário */}
           <div className="flex flex-col gap-2">
             <label className="text-slate-700 dark:text-primary text-xs font-bold uppercase tracking-widest">
               Usuário
@@ -61,6 +78,7 @@ export default function Register() {
             />
           </div>
 
+          {/* Email */}
           <div className="flex flex-col gap-2">
             <label className="text-slate-700 dark:text-primary text-xs font-bold uppercase tracking-widest">
               Email
@@ -75,6 +93,7 @@ export default function Register() {
             />
           </div>
 
+          {/* Senha */}
           <div className="flex flex-col gap-2 relative">
             <label className="text-slate-700 dark:text-primary text-xs font-bold uppercase tracking-widest">
               Senha
@@ -93,7 +112,11 @@ export default function Register() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute inset-y-0 right-2 flex items-center justify-center text-slate-500 hover:text-primary"
               >
-                {showPassword ? <MdVisibilityOff className="text-xl" /> : <MdVisibility className="text-xl" />}
+                {showPassword ? (
+                  <MdVisibilityOff className="text-xl" />
+                ) : (
+                  <MdVisibility className="text-xl" />
+                )}
               </button>
             </div>
           </div>

@@ -2,12 +2,18 @@ import { useState } from "react";
 import Card from "../ui/Card";
 import Button from "../ui/Button";
 import StatusSelector from "./StatusSelector";
-import formatStatus from "../../utils/formatStatus";
-import statusColors from "../../utils/statusColors";
 import Modal from "../ui/Modal";
+import statusColors from "../../utils/statusColors";
+import formatStatus from "../../utils/formatStatus";
 
 export default function LibraryCard({ item, onStatusChange, onRemove }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [localStatus, setLocalStatus] = useState(item.status);
+
+  const handleStatusChange = (status) => {
+    setLocalStatus(status);
+    onStatusChange(item.id, status);
+  };
 
   const handleRemoveClick = () => setIsModalOpen(true);
   const handleConfirmRemove = () => {
@@ -17,7 +23,7 @@ export default function LibraryCard({ item, onStatusChange, onRemove }) {
 
   return (
     <>
-      <Card className="flex flex-col h-[620px] overflow-hidden rounded-xl shadow-sm transition-all border border-slate-200 dark:border-slate-700/50 group">
+      <Card className="flex flex-col h-[620px] overflow-hidden rounded-xl shadow-sm border border-slate-200 dark:border-slate-700/50 group">
         {item.game.coverImage && (
           <div className="relative aspect-[16/9] overflow-hidden">
             <img src={item.game.coverImage} alt={item.game.title} />
@@ -38,19 +44,14 @@ export default function LibraryCard({ item, onStatusChange, onRemove }) {
           <div className="text-sm mb-4">
             <p>
               <strong>Status:</strong>{" "}
-              <span
-                className={`${statusColors[item.status] || "text-slate-500"} px-2 py-0.5 rounded`}
-              >
-                {formatStatus(item.status)}
+              <span className={`${statusColors[localStatus] || "text-slate-500"} px-2 py-0.5 rounded`}>
+                {formatStatus(localStatus)}
               </span>
             </p>
           </div>
 
           <div className="mb-4">
-            <StatusSelector
-              currentStatus={item.status}
-              onChange={(status) => onStatusChange(item.id, status)}
-            />
+            <StatusSelector currentStatus={localStatus} onChange={handleStatusChange} />
           </div>
 
           <div className="mt-auto">

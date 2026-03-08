@@ -1,37 +1,44 @@
 import ProfileStatCard from "./ProfileStatCard.jsx";
 
-export default function ProfileStats({ stats }) {
+export default function ProfileStats({ stats = {} }) {
+  const { totalGames = 0, completed = 0, playing = 0, backlog = 0 } = stats;
+
+  const calcPercent = (value) => {
+    if (totalGames === 0) return "0%";
+    return `${((value / totalGames) * 100).toFixed(0)}%`;
+  };
+
   const statItems = [
     {
-      label: "Total Games",
-      value: stats.totalGames,
+      label: "Total de jogos",
+      value: totalGames,
       icon: "sports_esports",
       iconColor: "text-primary",
-      percent: "+12%",
-      percentColor: "text-emerald-500"
-    },
-    {
-      label: "Completed",
-      value: stats.completed,
-      icon: "check_circle",
-      iconColor: "text-emerald-500",
-      percent: "+5%",
-      percentColor: "text-emerald-500"
-    },
-    {
-      label: "Playing",
-      value: stats.playing,
-      icon: "play_circle",
-      iconColor: "text-primary",
-      percent: "0%",
+      percent: calcPercent(totalGames),
       percentColor: "text-slate-400"
     },
     {
-      label: "Backlog",
-      value: stats.backlog,
+      label: "Finalizado",
+      value: completed,
+      icon: "check_circle",
+      iconColor: "text-emerald-500",
+      percent: calcPercent(completed),
+      percentColor: "text-emerald-500"
+    },
+    {
+      label: "Jogando",
+      value: playing,
+      icon: "play_circle",
+      iconColor: "text-primary",
+      percent: calcPercent(playing),
+      percentColor: "text-blue-500"
+    },
+    {
+      label: "Na fila",
+      value: backlog,
       icon: "inventory_2",
       iconColor: "text-orange-400",
-      percent: "-2%",
+      percent: calcPercent(backlog),
       percentColor: "text-orange-500"
     }
   ];
