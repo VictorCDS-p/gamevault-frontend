@@ -10,15 +10,6 @@ export default function Games() {
   const [categories, setCategories] = useState([])
   const [library, setLibrary] = useState([])
 
-  async function loadGames() {
-    const [allGames, libraryData] = await Promise.all([getGames(), getLibrary()])
-    setLibrary(libraryData)
-    const gamesNotInLibrary = allGames.filter(
-      (game) => !libraryData.some((lib) => lib.gameId === game.id)
-    )
-    setGames(gamesNotInLibrary)
-  }
-
   useEffect(() => {
     let ignore = false
     Promise.all([getGames(), getCategories(), getLibrary()]).then(
@@ -36,15 +27,28 @@ export default function Games() {
     return () => { ignore = true }
   }, [])
 
-  async function handleFilter(category) {
-    if (!category) {
-      loadGames()
-      return
+  async function handleFilter(filters) {
+    const { category, search } = filters
+
+    let data = []
+
+    if (category) {
+      data = await getGamesByCategory(category)
+    } else {
+      data = await getGames()
     }
-    const data = await getGamesByCategory(category)
-    const gamesNotInLibrary = data.filter(
+
+    let gamesNotInLibrary = data.filter(
       (game) => !library.some((lib) => lib.gameId === game.id)
     )
+
+    if (search) {
+      const term = search.toLowerCase()
+      gamesNotInLibrary = gamesNotInLibrary.filter((game) =>
+        game.title.toLowerCase().includes(term)
+      )
+    }
+
     setGames(gamesNotInLibrary)
   }
 
@@ -58,10 +62,12 @@ export default function Games() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <h1 className="text-2xl font-bold mb-6">Jogos</h1>
+
       <GameFilters
         categories={categories}
         onFilter={handleFilter}
       />
+
       <GameList
         games={games}
         onAddToLibrary={handleAddToLibrary}

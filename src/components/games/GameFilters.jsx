@@ -4,6 +4,7 @@ import Button from "../ui/Button"
 
 export default function GameFilters({ categories = [], onFilter }) {
   const [category, setCategory] = useState("")
+  const [search, setSearch] = useState("")
 
   const categoryOptions = [
     { value: "", label: "Todas as Categorias" },
@@ -15,14 +16,32 @@ export default function GameFilters({ categories = [], onFilter }) {
 
   function handleSubmit(e) {
     e.preventDefault()
-    onFilter(category)
+
+    onFilter({
+      category,
+      search
+    })
   }
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col lg:flex-row gap-4 bg-slate-100 dark:bg-slate-800/50 p-4 rounded-xl items-end"
+      className="flex flex-col lg:flex-row gap-4 bg-slate-100 dark:bg-slate-800/50 p-4 rounded-xl items-end mb-6"
     >
+      <div className="flex-1">
+        <label className="block text-sm font-medium mb-1">
+          Pesquisar
+        </label>
+
+        <input
+          type="text"
+          placeholder="Buscar jogo..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+      </div>
+
       <div className="flex-1">
         <Select
           label="Categoria"

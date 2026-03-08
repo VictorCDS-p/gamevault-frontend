@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 
-import CollectionList from "../components/collections/CollectionList"
+import CollectionCard from "../components/collections/CollectionCard"
 import CollectionForm from "../components/collections/CollectionForm"
 
 import Modal from "../components/ui/Modal"
-import Button from "../components/ui/Button"
+import Card from "../components/ui/Card"
 
 import {
   getCollections,
@@ -31,18 +31,17 @@ export default function Collections() {
   }
 
   useEffect(() => {
-    let ignore = false;
+    let ignore = false
     Promise.all([getCollections(), getLibrary()]).then(([collectionsData, libraryData]) => {
       if (!ignore) {
-        setCollections(collectionsData);
-        setLibrary(libraryData);
+        setCollections(collectionsData)
+        setLibrary(libraryData)
       }
-    });
-    return () => { ignore = true; };
+    })
+    return () => { ignore = true }
   }, [])
 
   async function handleSubmit(data) {
-
     if (editingCollection) {
       await updateCollection(editingCollection.id, data)
     } else {
@@ -50,7 +49,6 @@ export default function Collections() {
     }
 
     await loadCollections()
-
     setEditingCollection(null)
     setIsModalOpen(false)
   }
@@ -81,18 +79,48 @@ export default function Collections() {
   }
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-      <h1>Coleções</h1>
+      <h1 className="text-2xl font-bold mb-6">Coleções</h1>
 
-      <Button onClick={() => setIsModalOpen(true)}>
-        Criar coleção
-      </Button>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+        <div
+          onClick={() => setIsModalOpen(true)}
+          className="cursor-pointer group"
+        >
+          <Card className="flex flex-col items-center justify-center text-center rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 transition-all h-full p-6 hover:border-primary hover:bg-slate-50 dark:hover:bg-slate-800 hover:shadow-lg hover:-translate-y-1">
+            
+            <span className="material-symbols-outlined text-5xl mb-3 text-primary group-hover:scale-110 transition">
+              add_circle
+            </span>
+
+            <p className="font-semibold text-slate-700 dark:text-slate-200">
+              Criar coleção
+            </p>
+
+          </Card>
+        </div>
+
+        {collections.map((collection) => (
+          <CollectionCard
+            key={collection.id}
+            collection={collection}
+            library={library}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+            onAddGame={handleAddGame}
+            onRemoveGame={handleRemoveGame}
+          />
+        ))}
+
+      </div>
 
       <Modal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        title={editingCollection ? "Edit Collection" : "Criar coleção"}
+        title={editingCollection ? "Editar coleção" : "Criar coleção"}
+        className="w-[90vw] max-w-md p-6"
       >
         <CollectionForm
           initialData={editingCollection}
@@ -100,15 +128,6 @@ export default function Collections() {
           onCancel={handleCloseModal}
         />
       </Modal>
-
-      <CollectionList
-        collections={collections}
-        library={library}
-        onDelete={handleDelete}
-        onEdit={handleEdit}
-        onAddGame={handleAddGame}
-        onRemoveGame={handleRemoveGame}
-      />
 
     </div>
   )

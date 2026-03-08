@@ -1,36 +1,36 @@
-import { useState } from "react"
-import Card from "../ui/Card"
-import Button from "../ui/Button"
-import StatusSelector from "./StatusSelector"
-import formatStatus from "../../utils/formatStatus"
-import statusColors from "../../utils/statusColors"
-import Modal from "../ui/Modal"
+import { useState } from "react";
+import Card from "../ui/Card";
+import Button from "../ui/Button";
+import StatusSelector from "./StatusSelector";
+import formatStatus from "../../utils/formatStatus";
+import statusColors from "../../utils/statusColors";
+import Modal from "../ui/Modal";
 
 export default function LibraryCard({ item, onStatusChange, onRemove }) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleRemoveClick = () => setIsModalOpen(true)
+  const handleRemoveClick = () => setIsModalOpen(true);
   const handleConfirmRemove = () => {
-    onRemove(item.id)
-    setIsModalOpen(false)
-  }
+    onRemove(item.id);
+    setIsModalOpen(false);
+  };
 
   return (
     <>
-      <Card className="flex flex-col overflow-hidden rounded-xl shadow-sm transition-all border border-slate-200 dark:border-slate-700/50 group">
+      <Card className="flex flex-col h-[620px] overflow-hidden rounded-xl shadow-sm transition-all border border-slate-200 dark:border-slate-700/50 group">
         {item.game.coverImage && (
           <div className="relative aspect-[16/9] overflow-hidden">
             <img src={item.game.coverImage} alt={item.game.title} />
           </div>
         )}
 
-        <div className="p-4 flex flex-col">
+        <div className="p-4 flex flex-col flex-1">
           <h3 className="font-bold text-lg leading-tight mb-2 group-hover:text-primary transition-colors">
             {item.game.title}
           </h3>
 
           {item.game.description && (
-            <div className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+            <div className="text-sm text-slate-500 dark:text-slate-400 mb-4 flex-1 overflow-y-auto pr-1">
               <p>{item.game.description}</p>
             </div>
           )}
@@ -53,10 +53,10 @@ export default function LibraryCard({ item, onStatusChange, onRemove }) {
             />
           </div>
 
-          <div className="flex justify-center mt-auto">
+          <div className="mt-auto">
             <Button
               onClick={handleRemoveClick}
-              className="flex items-center justify-center gap-2 px-6 py-2.5 border rounded-lg font-bold text-sm transition-all bg-red-100 border-red-200 text-red-600 hover:bg-red-200 hover:text-red-800"
+              className="w-full py-3 rounded-lg border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition"
             >
               Remover
             </Button>
@@ -64,15 +64,16 @@ export default function LibraryCard({ item, onStatusChange, onRemove }) {
         </div>
       </Card>
 
-      {/* Modal de confirmação */}
       <Modal
         isOpen={isModalOpen}
         title="Confirmação de remoção"
         onClose={() => setIsModalOpen(false)}
+        className="w-[90vw] max-w-sm p-6"
       >
         <p className="text-sm text-slate-700 dark:text-slate-300 mb-4">
           Tem certeza que deseja remover <strong>{item.game.title}</strong> da sua biblioteca?
         </p>
+
         <div className="flex justify-end gap-3">
           <Button
             onClick={() => setIsModalOpen(false)}
@@ -89,5 +90,5 @@ export default function LibraryCard({ item, onStatusChange, onRemove }) {
         </div>
       </Modal>
     </>
-  )
+  );
 }

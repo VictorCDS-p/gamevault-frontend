@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import Card from "../components/ui/Card";
-import Button from "../components/ui/Button";
+import Card from "../components/ui/Card.jsx";
+import Button from "../components/ui/Button.jsx";
 
 import { userService } from "../services/userService.js";
 
@@ -10,7 +10,6 @@ import ProfileStats from "../components/profile/ProfileStats.jsx";
 import EditProfileModal from "../components/profile/EditProfileModal.jsx";
 
 export default function Profile() {
-
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -49,7 +48,7 @@ export default function Profile() {
   if (!profile) return <p>Perfil não encontrado.</p>;
 
   return (
-    <div>
+    <div className="max-w-3xl mx-auto px-4 py-6">
       <ProfileHeader
         username={profile.username}
         email={profile.email}
@@ -58,29 +57,31 @@ export default function Profile() {
 
       <ProfileStats stats={profile.stats} />
 
-      <Card style={{ marginTop: "20px" }}>
-        <Button variant="danger" onClick={handleDelete}>
+      <Card className="mt-6 flex flex-col gap-2 p-5 rounded-xl ">
+        <Button
+          onClick={handleDelete}
+          className="w-full py-3 rounded-lg border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition"
+        >
           Deletar conta
         </Button>
       </Card>
 
-      {showEditModal && (
-        <EditProfileModal
-          profile={profile}
-          onClose={() => setShowEditModal(false)}
-          onSave={async (updatedData) => {
-            try {
-              const updatedProfile = await userService.updateProfile(updatedData);
-              setProfile(updatedProfile);
-              setShowEditModal(false);
-            } catch {
-              alert("Erro ao atualizar perfil");
-            }
-          }}
-        />
-      )}
+      <EditProfileModal
+        profile={profile}
+        isOpen={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        onSave={async (updatedData) => {
+          try {
+            const updatedProfile = await userService.updateProfile(updatedData);
+            setProfile(updatedProfile);
+            setShowEditModal(false);
+          } catch {
+            alert("Erro ao atualizar perfil");
+          }
+        }}
+      />
 
-      {error && <p className="auth-error">{error}</p>}
+      {error && <p className="auth-error mt-4 text-red-500">{error}</p>}
     </div>
   );
 }

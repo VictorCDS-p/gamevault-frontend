@@ -12,7 +12,7 @@ export default function GameCard({ game, onAddToLibrary }) {
   }
 
   return (
-    <Card className="flex flex-col overflow-hidden rounded-xl shadow-sm transition-all border border-slate-200 dark:border-slate-700/50 group">
+    <Card className="flex flex-col h-[600px] overflow-hidden rounded-xl shadow-sm transition-all border border-slate-200 dark:border-slate-700/50 group">
       {game.coverImage && (
         <div className="relative aspect-[16/9] overflow-hidden">
           <img
@@ -27,7 +27,7 @@ export default function GameCard({ game, onAddToLibrary }) {
         </div>
       )}
 
-      <div className="p-4 flex flex-col">
+      <div className="p-4 flex flex-col flex-1">
         <h3 className="font-bold text-lg leading-tight mb-2 group-hover:text-primary transition-colors">
           {game.title}
         </h3>
@@ -45,7 +45,7 @@ export default function GameCard({ game, onAddToLibrary }) {
           </div>
         )}
 
-        <div className="text-sm text-slate-500 dark:text-slate-400 space-y-1 mb-4">
+        <div className="text-sm text-slate-500 dark:text-slate-400 space-y-1 mb-4 flex-1 overflow-y-auto pr-1">
           {game.description && <p>{game.description}</p>}
           {game.developer && <p><strong>Developer:</strong> {game.developer}</p>}
           {game.publisher && <p><strong>Publisher:</strong> {game.publisher}</p>}
@@ -55,10 +55,10 @@ export default function GameCard({ game, onAddToLibrary }) {
           <Button
             onClick={handleAdd}
             disabled={loading}
-            className="flex items-center justify-center gap-2 px-6 py-2.5 border rounded-lg font-bold text-sm transition-all bg-[rgba(102,192,244,0.1)] border-[rgba(102,192,244,0.2)] text-[#66c0f4] hover:bg-[rgba(102,192,244,0.2)] hover:text-[#0f1f2f]"
+            className="w-full flex items-center justify-center gap-2 py-3 border rounded-lg font-bold text-sm transition-all bg-[rgba(102,192,244,0.1)] border-[rgba(102,192,244,0.2)] text-[#66c0f4] hover:bg-[rgba(102,192,244,0.2)] hover:text-[#0f1f2f]"
           >
             <span className="material-symbols-outlined text-lg">add_circle</span>
-            {loading ? "Adicionando..." : "Add to Library"}
+            {loading ? "Adicionando..." : "Add a biblioteca"}
           </Button>
         </div>
       </div>
