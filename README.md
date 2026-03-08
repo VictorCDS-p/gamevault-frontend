@@ -92,7 +92,7 @@ src
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/gamevault-frontend.git
+git clone https://github.com/VictorCDS-p/gamevault-frontend.git
 cd gamevault-frontend
 ```
 
