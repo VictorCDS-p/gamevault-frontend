@@ -1,11 +1,10 @@
 import { useState } from "react";
 import LibraryCard from "./LibraryCard";
 import Pagination from "../ui/Pagination";
-import formatStatus from "../../utils/formatStatus";
 
 export default function LibraryList({ library, onStatusChange, onRemove }) {
-  const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 8;
+  const [currentPage, setCurrentPage] = useState(1);
 
   if (!library || library.length === 0) {
     return (
@@ -24,11 +23,8 @@ export default function LibraryList({ library, onStatusChange, onRemove }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {paginatedLibrary.map((item) => (
           <LibraryCard
-            key={item.id}
-            item={{
-              ...item,
-              statusLabel: formatStatus(item.status), // garante pt-BR
-            }}
+            key={`${item.userId}-${item.game.id}`} // garante chave única
+            item={item}
             onStatusChange={onStatusChange}
             onRemove={onRemove}
           />

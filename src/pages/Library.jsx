@@ -1,50 +1,34 @@
 import { useEffect, useState } from "react";
 import LibraryList from "../components/library/LibraryList";
 import Card from "../components/ui/Card";
-import {
-  getLibrary,
-  updateGameStatus,
-  removeGameFromLibrary,
-} from "../services/libraryService";
+import { getLibrary, updateGameStatus, removeGameFromLibrary } from "../services/libraryService";
 
 export default function Library() {
   const [library, setLibrary] = useState([]);
 
   useEffect(() => {
-    let ignore = false;
     getLibrary()
-      .then((data) => !ignore && setLibrary(data))
+      .then(setLibrary)
       .catch((err) => console.error("Erro ao carregar biblioteca:", err));
-    return () => {
-      ignore = true;
-    };
   }, []);
 
-  async function handleStatusChange(libraryItemId, newStatus) {
+  const handleStatusChange = async (item, newStatus) => {
     try {
-      const libraryItem = library.find((item) => item.id === libraryItemId);
-      if (!libraryItem) return;
-
-      const gameId = libraryItem.game.id;
-
-      await updateGameStatus(gameId, newStatus);
-
+      await updateGameStatus(item.game.id, newStatus);
       setLibrary((prev) =>
-        prev.map((item) =>
-          item.id === libraryItemId ? { ...item, status: newStatus } : item,
-        ),
+        prev.map((i) => (i.game.id === item.game.id ? { ...i, status: newStatus } : i))
       );
     } catch (err) {
       console.error("Erro ao atualizar status:", err);
     }
-  }
+  };
 
-  const handleRemove = async (libraryItemId) => {
+  const handleRemove = async (item) => {
     try {
-      await removeGameFromLibrary(libraryItemId);
-      setLibrary((prev) => prev.filter((item) => item.id !== libraryItemId));
+      await removeGameFromLibrary(item.game.id);
+      setLibrary((prev) => prev.filter((i) => i.game.id !== item.game.id));
     } catch (err) {
-      console.error("Erro ao remover jogo:", err.response?.data || err);
+      console.error("Erro ao remover jogo:", err);
     }
   };
 

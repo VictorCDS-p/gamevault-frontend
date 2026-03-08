@@ -22,7 +22,7 @@ export default function StatusSelector({ currentStatus, onChange }) {
   }, [open]);
 
   const handleSelect = (status) => {
-    onChange(status);
+    onChange(status); // avisa LibraryCard
     setOpen(false);
   };
 
@@ -55,35 +55,26 @@ export default function StatusSelector({ currentStatus, onChange }) {
               const el = e.currentTarget;
               const { scrollTop, scrollHeight, clientHeight } = el;
               const delta = e.deltaY;
-              if (
-                (scrollTop === 0 && delta < 0) ||
-                (scrollTop + clientHeight >= scrollHeight && delta > 0)
-              ) {
+              if ((scrollTop === 0 && delta < 0) || (scrollTop + clientHeight >= scrollHeight && delta > 0)) {
                 e.preventDefault();
               }
             }}
             className="absolute z-50 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-lg max-h-60 overflow-auto text-sm"
-            style={{
-              top: dropdownPos.top,
-              left: dropdownPos.left,
-              width: dropdownPos.width,
-            }}
+            style={{ top: dropdownPos.top, left: dropdownPos.left, width: dropdownPos.width }}
           >
             {STATUSES.map((status) => (
               <li
                 key={status}
                 onClick={() => handleSelect(status)}
-                className={`px-4 py-2 cursor-pointer hover:bg-primary/10 dark:hover:bg-primary/20`}
+                className="px-4 py-2 cursor-pointer hover:bg-primary/10 dark:hover:bg-primary/20"
               >
-                <span
-                  className={`${statusColors[status] || "text-slate-900 dark:text-slate-200"}`}
-                >
+                <span className={`${statusColors[status] || "text-slate-900 dark:text-slate-200"}`}>
                   {formatStatus(status)}
-                </span>{" "}
+                </span>
               </li>
             ))}
           </ul>,
-          document.body,
+          document.body
         )}
     </div>
   );

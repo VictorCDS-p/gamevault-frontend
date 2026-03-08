@@ -1,4 +1,4 @@
-import api from "./api";
+import api from "./api"; // já deve ter a baseURL configurada e o token Bearer
 
 const ALLOWED_STATUSES = ["PLAYING", "COMPLETED", "BACKLOG", "DROPPED"];
 
@@ -12,23 +12,16 @@ export async function addGameToLibrary(gameId) {
   return response.data;
 }
 
-/**
- * Atualiza o status de um jogo na biblioteca
- * @param {number} libraryId - ID do registro da biblioteca
- * @param {string} status - Novo status (PLAYING, COMPLETED, BACKLOG, DROPPED)
- */
-export async function updateGameStatus(libraryId, status) {
+export async function updateGameStatus(gameId, status) {
   if (!ALLOWED_STATUSES.includes(status)) {
-    throw new Error(
-      `Status inválido. Deve ser um dos: ${ALLOWED_STATUSES.join(", ")}`
-    );
+    throw new Error(`Status inválido. Deve ser um dos: ${ALLOWED_STATUSES.join(", ")}`);
   }
-
-  const response = await api.put(`/library/${libraryId}/status`, { status });
+  const response = await api.put(`/library/${gameId}/status`, { status });
   return response.data;
 }
 
-export async function removeGameFromLibrary(libraryId) {
-  const response = await api.delete(`/library/${libraryId}`);
+// Remove jogo
+export async function removeGameFromLibrary(gameId) {
+  const response = await api.delete(`/library/${gameId}`);
   return response.data;
 }

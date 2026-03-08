@@ -10,14 +10,10 @@ export default function LibraryCard({ item, onStatusChange, onRemove }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [localStatus, setLocalStatus] = useState(item.status);
 
-  const handleStatusChange = (status) => {
-    setLocalStatus(status);
-    onStatusChange(item.id, status);
-  };
-
   const handleRemoveClick = () => setIsModalOpen(true);
+
   const handleConfirmRemove = () => {
-    onRemove(item.id);
+    onRemove(item); // passa o item completo
     setIsModalOpen(false);
   };
 
@@ -44,14 +40,22 @@ export default function LibraryCard({ item, onStatusChange, onRemove }) {
           <div className="text-sm mb-4">
             <p>
               <strong>Status:</strong>{" "}
-              <span className={`${statusColors[localStatus] || "text-slate-500"} px-2 py-0.5 rounded`}>
+              <span
+                className={`${statusColors[localStatus] || "text-slate-500"} px-2 py-0.5 rounded`}
+              >
                 {formatStatus(localStatus)}
               </span>
             </p>
           </div>
 
           <div className="mb-4">
-            <StatusSelector currentStatus={localStatus} onChange={handleStatusChange} />
+            <StatusSelector
+              currentStatus={localStatus}
+              onChange={(newStatus) => {
+                setLocalStatus(newStatus);
+                onStatusChange(item, newStatus); // atualiza no Library.jsx
+              }}
+            />
           </div>
 
           <div className="mt-auto">
