@@ -12,7 +12,6 @@ export default function ProfileHeader({ username, email, onEdit }) {
           className="ring-4 ring-primary/20 dark:ring-primary/10"
         />
 
-        {/* Ícone de editar clicável */}
         <div
           onClick={onEdit}
           className="absolute bottom-1 right-1 bg-primary text-background-dark rounded-full p-1 border-4 border-background-dark cursor-pointer hover:scale-105 transition-transform"

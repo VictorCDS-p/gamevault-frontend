@@ -17,7 +17,6 @@ export default function Register() {
 
   const navigate = useNavigate();
 
-  // Função para validar email usando regex
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -28,7 +27,6 @@ export default function Register() {
     setError("");
     setSuccess("");
 
-    // Validação de email antes de enviar
     if (!isValidEmail(email)) {
       setError("Por favor, insira um email válido.");
       return;
@@ -54,7 +52,6 @@ export default function Register() {
           Criar Conta
         </h1>
 
-        {/* Mensagens de erro ou sucesso */}
         {error && (
           <div className="text-red-500 mb-4 text-sm text-center">{error}</div>
         )}
@@ -63,7 +60,6 @@ export default function Register() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Usuário */}
           <div className="flex flex-col gap-2">
             <label className="text-slate-700 dark:text-primary text-xs font-bold uppercase tracking-widest">
               Usuário
@@ -78,7 +74,6 @@ export default function Register() {
             />
           </div>
 
-          {/* Email */}
           <div className="flex flex-col gap-2">
             <label className="text-slate-700 dark:text-primary text-xs font-bold uppercase tracking-widest">
               Email
@@ -93,7 +88,6 @@ export default function Register() {
             />
           </div>
 
-          {/* Senha */}
           <div className="flex flex-col gap-2 relative">
             <label className="text-slate-700 dark:text-primary text-xs font-bold uppercase tracking-widest">
               Senha

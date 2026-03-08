@@ -95,7 +95,6 @@ export default function CollectionCard({
         onAdd={onAddGame}
       />
 
-      {/* Modal de confirmação igual LibraryCard */}
       <Modal
         isOpen={isConfirmModal}
         title="Confirmação de exclusão"

@@ -20,7 +20,6 @@ export async function updateGameStatus(gameId, status) {
   return response.data;
 }
 
-// Remove jogo
 export async function removeGameFromLibrary(gameId) {
   const response = await api.delete(`/library/${gameId}`);
   return response.data;

@@ -23,7 +23,7 @@ export default function LibraryList({ library, onStatusChange, onRemove }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {paginatedLibrary.map((item) => (
           <LibraryCard
-            key={`${item.userId}-${item.game.id}`} // garante chave única
+            key={`${item.userId}-${item.game.id}`}
             item={item}
             onStatusChange={onStatusChange}
             onRemove={onRemove}

@@ -13,7 +13,7 @@ export default function LibraryCard({ item, onStatusChange, onRemove }) {
   const handleRemoveClick = () => setIsModalOpen(true);
 
   const handleConfirmRemove = () => {
-    onRemove(item); // passa o item completo
+    onRemove(item); 
     setIsModalOpen(false);
   };
 
@@ -53,7 +53,7 @@ export default function LibraryCard({ item, onStatusChange, onRemove }) {
               currentStatus={localStatus}
               onChange={(newStatus) => {
                 setLocalStatus(newStatus);
-                onStatusChange(item, newStatus); // atualiza no Library.jsx
+                onStatusChange(item, newStatus); 
               }}
             />
           </div>

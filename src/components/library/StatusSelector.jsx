@@ -22,7 +22,7 @@ export default function StatusSelector({ currentStatus, onChange }) {
   }, [open]);
 
   const handleSelect = (status) => {
-    onChange(status); // avisa LibraryCard
+    onChange(status);
     setOpen(false);
   };
 

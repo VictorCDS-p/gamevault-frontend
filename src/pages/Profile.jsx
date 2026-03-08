@@ -68,7 +68,6 @@ export default function Profile() {
         </Button>
       </Card>
 
-      {/* Modal de confirmação de deletar conta */}
       <Modal
         isOpen={showDeleteModal}
         title="Confirmação de exclusão"

@@ -15,7 +15,6 @@ export default function Navbar({ onLogout }) {
   return (
     <nav className="w-full flex items-center justify-between px-6 py-4 bg-slate-200 dark:bg-surface rounded-b-xl shadow-md border-b border-slate-300 dark:border-slate-800">
       
-      {/* Logo */}
       <div className="flex items-center gap-2">
         <span className="material-symbols-outlined text-3xl text-primary">videogame_asset</span>
         <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">
@@ -23,7 +22,6 @@ export default function Navbar({ onLogout }) {
         </h2>
       </div>
 
-      {/* Links do menu */}
       <ul className="flex items-center gap-4">
         {links.map((link) => {
           const isActive = location.pathname === link.to;
@@ -45,7 +43,6 @@ export default function Navbar({ onLogout }) {
         })}
       </ul>
 
-      {/* Botão de Sair */}
       <Button
         variant="secondary"
         onClick={onLogout}

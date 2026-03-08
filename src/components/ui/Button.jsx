@@ -4,7 +4,7 @@ export default function Button({
   type = "button",
   variant = "primary",
   disabled = false,
-  className = "", // aceitar className
+  className = "", 
 }) {
   const styles = {
     primary: "btn-primary",
